@@ -13,9 +13,10 @@
 const dotenv = require('dotenv').config().parsed;
 
 // precedence 1 (COMMAND_LINE_DECLARED=true node server.js)
+//  (and node globals)
 const node_env = process.env;
 
-// precedence Infinity (node server.js --command_line_declared true)
+// precedence 2 (node server.js --command_line_declared true)
 const argv = require('yargs').argv;
 // add upper-cased versions of command-line-supplied arguments
 Object.keys(argv).forEach(k => argv[k.toUpperCase()] = argv[k]);

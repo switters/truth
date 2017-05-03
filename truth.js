@@ -18,8 +18,7 @@ const node_env = process.env;
 // precedence Infinity (node server.js --command_line_declared true)
 const argv = require('yargs').argv;
 // add upper-cased versions of command-line-supplied arguments
-const argv_uc = Object.keys(argv).forEach(k => argv[k.toUpperCase()] = argv[k]);
+Object.keys(argv).forEach(k => argv[k.toUpperCase()] = argv[k]);
 
 // export a new object
 module.exports = Object.assign({}, dotenv, node_env, argv);
-

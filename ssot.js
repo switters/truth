@@ -1,25 +1,88 @@
 /**
- * Tiny env var resolver
+ * SSOT: Tiny env var resolver
  *
  * !!! PRECEDENCE MATTERS !!!
  *
- * example (from lowest priority to highest):
- *     .env
- *     < ```COMMAND_LINE_DECLARED node server.js```
- *     < ```node server.js --command_line_declared``` (case-insensitive)
+ * Variable precedence (lower precedence sources will be
+ * over-written by higher precedence sources):
+ *
+ *  0. process.env
+ *  1. ```MY_VAR=false node server.js```
+ *  2. ./config/*.json
+ *  3. ./.env
+ *  4. ```node server.js --my_var true```
+ *
+ * Keys supplied in any manner will be upper-cased.
  */
 
-// precedence 0 (defaults)
-const dotenv = require('dotenv').config().parsed;
+/**
+ * Make new object with all keys in UPPERCASE
+ *
+ * @param  {Object} obj Target object
+ * @return {Object}     Copy of target with UPPERCASE keys
+ */
+function uppercase_obj (obj) {
+  const uc = {};
+  Object.keys(obj).forEach(k => uc[k.toUpperCase()] = obj[k]);
 
-// precedence 1 (COMMAND_LINE_DECLARED=true node server.js)
-//  (and node globals)
+  return uc;
+}
+
+/**
+ * process.env serves as the defaults
+ *
+ * This also means that COMMAND_LINE_DECLARED=true node server.js
+ * will be overwritten if variable of same name (case-insensitive)
+ * defined in config folder, .env file, or as a cli argument.
+ *
+ * @type {Object}
+ */
 const node_env = process.env;
 
-// precedence 2 (node server.js --command_line_declared true)
-const argv = require('yargs').argv;
-// add upper-cased versions of command-line-supplied arguments
-Object.keys(argv).forEach(k => argv[k.toUpperCase()] = argv[k]);
+/**
+ * config overwrites defaults
+ *
+ * config/default.json || config/development.json (higher precedence)
+ * will be used if NODE_ENV not defined.
+ *
+ * Use config/production.json if NODE_ENV === 'production'
+ *
+ * See config documentation for details on default behavior:
+ *   https://www.npmjs.com/package/config
+ *
+ * NOTES:
+ *  - Keys are case insensitive: they will be upper-cased.
+ *  - config/*.json files should be flat, having depth === 1.
+ *
+ * @type {Object}
+ */
+const config = uppercase_obj(require('config'));
 
-// export a new object
-module.exports = Object.assign({}, dotenv, node_env, argv);
+/**
+ * .env file will overwrite config/*.json files and defaults
+ *
+ * Again, case is insensitive in that all keys will be upper-cased
+ *
+ * @type {Object}
+ */
+const dotenv = uppercase_obj(require('dotenv').config().parsed);
+
+
+/**
+ * command line arguments will overwrite all other variables
+ *
+ * NOTES:
+ *  - See yargs documentation for details on default behavior:
+ *    https://www.npmjs.com/package/yargs
+ *  - Again, case is insensitive in that all keys will be uppercased
+ *
+ * @type {Object}
+ */
+const argv = uppercase_obj(require('yargs').argv);
+
+/**
+ * export ssot
+ *
+ * @type {Object}
+ */
+module.exports = Object.assign({}, node_env, config, dotenv, argv);

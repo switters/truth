@@ -16,6 +16,7 @@
   "author": "switters <codenomadic@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "config": "^1.26.1",
     "dotenv": "^4.0.0",
     "yargs": "^8.0.1"
   }

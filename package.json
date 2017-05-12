@@ -1,5 +1,5 @@
 {
-  "name": "truth",
+  "name": "ssot",
   "version": "0.0.1",
   "description": "Small file that establishes a single-source of truth across .env file, cli vars, and cli args.",
   "main": "index.js",
@@ -20,4 +20,3 @@
     "yargs": "^8.0.1"
   }
 }
-

@@ -51,7 +51,7 @@ const node_env = process.env;
  *   https://www.npmjs.com/package/config
  *
  * NOTES:
- *  - Keys are case insensitive: they will be upper-cased.
+ *  - Case is insensitive: all keys will be upper-cased
  *  - config/*.json files should be flat, having depth === 1.
  *
  * @type {Object}
@@ -61,7 +61,7 @@ const config = uppercase_obj(require('config'));
 /**
  * .env file will overwrite config/*.json files and defaults
  *
- * Again, case is insensitive in that all keys will be upper-cased
+ * Case is insensitive: all keys will be upper-cased
  *
  * @type {Object}
  */
@@ -74,7 +74,7 @@ const dotenv = uppercase_obj(require('dotenv').config().parsed);
  * NOTES:
  *  - See yargs documentation for details on default behavior:
  *    https://www.npmjs.com/package/yargs
- *  - Again, case is insensitive in that all keys will be uppercased
+ *  - Case is insensitive: all keys will be uppercased
  *
  * @type {Object}
  */
@@ -85,4 +85,4 @@ const argv = uppercase_obj(require('yargs').argv);
  *
  * @type {Object}
  */
-module.exports = Object.assign({}, node_env, config, dotenv, argv);
+module.exports = Object.freeze(Object.assign({}, node_env, config, dotenv, argv));

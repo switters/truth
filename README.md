@@ -59,9 +59,9 @@ Environment variables loaded by config from `./config/*.json`:
 
 - will be **over-written** by all other sources: `./.env` variables, command line arguments, and `process.env` variables (including environment variables supplied in the command-line: eg, `MY_VAR=some_string node server.js`).
 
-**The config folder is best used to supply variable templates and defaults for various environments.**
+The config folder is best used to supply variable templates and defaults for various environments.
 
-**The config source is sensitive to the `NODE_ENV` variable:**
+The config source is sensitive to the `NODE_ENV` variable:
 - If `NODE_ENV` is undefined, the `./config/development.json` or `./config/defaults.json` file will be loaded.
 - If `NODE_ENV` is equal to `production`, the `./config/production.json` file will be loaded.
 - Etc.

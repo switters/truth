@@ -22,6 +22,8 @@
  * @return {Object}     Copy of target with UPPERCASE keys
  */
 function uppercase_obj (obj) {
+  if (!obj) return {};
+
   const uc = {};
   Object.keys(obj).forEach(k => uc[k.toUpperCase()] = obj[k]);
 
@@ -85,4 +87,4 @@ const argv = uppercase_obj(require('yargs').argv);
  *
  * @type {Object}
  */
-module.exports = Object.freeze(Object.assign({}, node_env, config, dotenv, argv));
+module.exports = Object.freeze(Object.assign({}, config, dotenv, node_env, argv));

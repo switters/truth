@@ -25,6 +25,7 @@ If more than one is used and they define a value for the same variable, a static
 Precedence in brief:
 ### cli args > process.env > .env > .config/*.json
 (highest)...........................................................(lowest)
+
 ## Precedence Hierarchy (descending)
 
 ## cli arguments

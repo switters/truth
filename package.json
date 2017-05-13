@@ -1,6 +1,6 @@
 {
   "name": "ssot",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Small file that establishes a single-source of truth across .env file, cli vars, and cli args.",
   "main": "index.js",
   "scripts": {

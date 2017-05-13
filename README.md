@@ -23,6 +23,7 @@ None or all of these config/env var sources may be used.
 If more than one is used and they define a value for the same variable, a static precedence hierarchy defines how such conflicts will be settled.
 
 Precedence in brief:
+
 ### cli args > process.env > .env > .config/*.json
 (highest)...........................................................(lowest)
 

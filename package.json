@@ -1,17 +1,21 @@
 {
   "name": "ssot",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Small file that establishes a single-source of truth across .env file, cli vars, and cli args.",
   "main": "index.js",
+  "repository": "switters/ssot",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Apologies - tests wip\" && exit 1"
   },
   "keywords": [
     "truth",
     "env",
     "vars",
     "arguments",
-    "conf"
+    "conf",
+    "yargs",
+    "config",
+    "dotenv"
   ],
   "author": "switters <codenomadic@gmail.com>",
   "license": "MIT",

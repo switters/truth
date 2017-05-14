@@ -2,6 +2,11 @@
 
 ssot is a tiny library for bringing together command-line-supplied config variables with environment variables from various sources into one immutable object, one single source of truth.
 
+Benefits:
+
+1. A uniform way to access a unified, immutable list of your env vars/cli args from anywhere in your app.
+2. Rapid modification of env vars from the command-line without reaching into your env files, for example: tweaking DB connections params while speed testing.
+
 Readme clarity: wip.
 
 # Sources
@@ -15,6 +20,79 @@ ssot uses three commonly used packages to collect configuration and/or environme
 Note: `process.env` should also be considered a source of truth. It represents the user environment according to node and includes environment variables supplied in the command line, eg. `MY_VAR=some_string node server.js`.
 
 More on [`process.env` here](https://nodejs.org/api/process.html#process_process_env).
+
+# Getting Started
+
+Install the npm package, saving to your dependencies:
+```
+npm install --save ssot
+```
+
+Create a .env file, and/or a config folder with development.json and production.json:
+
+```
+// project dir (root)
+
+./config/development.json
+./config/production.json
+./.env
+
+```
+
+Populate files with variables:
+
+```
+// config/development.json
+{
+    "x": "x_config_dev",
+    "y": "y_config_dev",
+    "z": "z_config_dev"
+}
+
+// config/production.json
+{
+    "w": "w_config_prod"
+    "y": "y_config_prod",
+    "z": "z_config_prod"
+}
+
+// .env
+X="x_env"
+Z="z_env"
+
+```
+
+Create a test script or require ssot in any existing file:
+
+```
+// test.js
+
+const { W, X, Y, Z, ARBIT } = require('ssot');
+console.log("Vars:", W, X, Y, Z, ARBIT);
+
+```
+
+Run from command line:
+
+```
+
+// config/development.json is read, .env over-writes, no ARBIT
+# node test.js
+    //=> Vars: undefined x_env config_dev_y z_env undefined
+
+// config/production.json is read, .env over-writes, no ARBIT
+# NODE_ENV=production node test.js
+    //=> Vars: w_config_prod x_env y_config_prod z_env undefined
+
+// config/development.json is read, .env over-writes, no ARBIT
+# NODE_ENV=development ARBIT=arbitrary node test.js
+    //=> Vars: w_config_dev x_env y_config_dev z_env arbitrary
+
+// config/production.json is read, .env over-writes, cli over-writes
+# NODE_ENV=production node test.js --w w_cli --arbit 42
+    //=> Vars: w_cli x_env y_config_prod z_env 42
+
+```
 
 # Precedence
 
@@ -51,7 +129,7 @@ See the [node docs](https://nodejs.org/api/process.html#process_process_env) for
 ## .env
 Variables loaded from the `./.env` file:
 
-- will be **over-written** by command line arguments, and `process.env` variables (including environment variables supplied in the command-line: eg, `MY_VAR=some_string node server.js`).
+- will be **over-written** by command line arguments and `process.env` variables (including environment variables supplied in the command-line: eg, `MY_VAR=some_string node server.js`).
 - will **over-write** those values stored in `./config/*.json` files.
 
 See the [dotenv readme](https://www.npmjs.com/package/dotenv) for details on expected setup and default behaviour.

@@ -1,16 +1,15 @@
 /**
- * SSOT: Tiny env var resolver
+ * SSOT: Tiny env var/cli arg resolver
  *
  * !!! PRECEDENCE MATTERS !!!
  *
- * Variable precedence (lower precedence sources will be
+ * Variable precedence (descending - lower precedence sources will be
  * over-written by higher precedence sources):
  *
- *  0. process.env
- *  1. ```MY_VAR=false node server.js```
- *  2. ./config/*.json
- *  3. ./.env
- *  4. ```node server.js --my_var true```
+ *  1. cli arguments
+ *  2. process.env (incl cli supplied env vars)
+ *  3. .env variables
+ *  4. config/*.json variables
  *
  * Keys supplied in any manner will be upper-cased.
  */

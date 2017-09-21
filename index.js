@@ -1,3 +1,7 @@
+
+// yargs complains if it can't find a config file
+process.env.SUPPRESS_NO_CONFIG_WARNING = true;
+
 /**
  * SSOT: Tiny env var/cli arg resolver
  *
@@ -23,10 +27,9 @@
 function uppercase_obj (obj) {
   if (!obj) return {};
 
-  const uc = {};
-  Object.keys(obj).forEach(k => uc[k.toUpperCase()] = obj[k]);
+  Object.keys(obj).forEach(k => obj[k.toUpperCase()] = obj[k]);
 
-  return uc;
+  return obj;
 }
 
 /**

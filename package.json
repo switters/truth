@@ -22,6 +22,6 @@
   "dependencies": {
     "config": "^1.26.1",
     "dotenv": "^4.0.0",
-    "yargs": "^8.0.1"
+    "yargs": "^15.3.1"
   }
 }

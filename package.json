@@ -1,6 +1,6 @@
 {
   "name": "ssot",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "Small file that establishes a single-source of truth across .env file, cli vars, and cli args.",
   "main": "index.js",
   "repository": "switters/ssot",
